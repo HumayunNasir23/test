@@ -11,7 +11,8 @@ pipeline {
             steps{
                 sshagent(credentials : ['jenkins-ssh']) {
                     sh 'ssh -o StrictHostKeyChecking=no root@163.69.83.205 uptime'
-                    sh "ssh -o StrictHostKeyChecking=no root@163.69.83.205 \"touch newtestfile\""
+                    sh "ssh -o StrictHostKeyChecking=no root@163.69.83.205 \"touch newtestfile2\""
+                    sh "ssh -o StrictHostKeyChecking=no root@163.69.83.205 \"kubectl apply -f test-deployment.yaml\""
                 }
             }
         }
