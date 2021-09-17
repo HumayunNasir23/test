@@ -16,7 +16,7 @@ pipeline {
                     remote.user = 'root'
                     remote.password = ''
                     remote.allowAnyHosts = true
-                    sshCommand remote: remote, command: "sudo ls"
+                    sshCommand remote: remote, command: "ls"
 
                 }
             }
