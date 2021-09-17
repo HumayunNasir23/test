@@ -16,7 +16,7 @@ pipeline {
                     remote.user = 'root'
                     remote.identityFile = 'root'
                     remote.allowAnyHosts = true
-                    sshCommand remote: remote, command: "touch testfile"
+                    sshCommand remote: remote, command: "ls"
 
                 }
             }
