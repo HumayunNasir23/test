@@ -11,7 +11,7 @@ pipeline {
             steps{
                 sshagent(credentials : ['jenkins-ssh']) {
                     sh 'ssh -o StrictHostKeyChecking=no root@163.69.83.205 uptime'
-                    sh 'touch newfile'
+                    sh "ssh -o StrictHostKeyChecking=no root@163.69.83.205 \"touch newtestfile\""
                 }
             }
         }
