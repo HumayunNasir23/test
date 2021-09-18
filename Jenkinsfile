@@ -17,8 +17,7 @@ pipeline {
             steps{
                 sshagent(credentials : ['jenkins-ssh']) {
                     sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} uptime"
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"cd folder\""
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"kubectl apply -f dep.yaml\""
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"kubectl apply -f folder/dep.yaml\""
 
                 }
             }
