@@ -4,11 +4,21 @@ pipeline {
     }
     agent any
     stages {
-        stage ('Deploy') {
+        stage ('Deploy backend') {
             steps{
                 sshagent(credentials : ['jenkins-ssh']) {
                     sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} uptime"
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"touch newtestfile2\""
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"kubectl apply -f dep.yaml\""
+
+                }
+            }
+        }
+        stage ('Deploy frontend') {
+            steps{
+                sshagent(credentials : ['jenkins-ssh']) {
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} uptime"
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"cd folder\""
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"kubectl apply -f dep.yaml\""
 
                 }
             }
