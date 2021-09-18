@@ -1,18 +1,15 @@
 pipeline {
+    environment {
+    DRaaS_IP = '163.69.81.96'
+    }
     agent any
     stages {
-        stage('Example') {
-            steps {
-                echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
- 
-            }
-        }
         stage ('Deploy') {
             steps{
                 sshagent(credentials : ['jenkins-ssh']) {
-                    sh 'ssh -o StrictHostKeyChecking=no root@163.69.83.205 uptime'
-                    sh "ssh -o StrictHostKeyChecking=no root@163.69.83.205 \"touch newtestfile2\""
-                    sh "ssh -o StrictHostKeyChecking=no root@163.69.83.205 \"kubectl apply -f test-deployment.yaml\""
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} uptime"
+                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"touch newtestfile2\""
+
                 }
             }
         }
