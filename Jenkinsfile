@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
 		    sh "echo ${env.BRANCH_NAME}"
-		    def branch = ${env.BRANCH_NAME}
+		    def branch = "${env.BRANCH_NAME}"  
                     if (branch == 'thirsty') {
                         echo 'I only execute on the thirsty branch'
                     } else {
