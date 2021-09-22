@@ -1,25 +1,27 @@
 pipeline {
-  agent any
-  environment {
-    FULL_PATH_BRANCH = "${sh(script:'git name-rev --name-only HEAD', returnStdout: true)}"
-    GIT_BRANCH = FULL_PATH_BRANCH.substring(FULL_PATH_BRANCH.lastIndexOf('/') + 1, FULL_PATH_BRANCH.length())
-  }
-   stages {
-        stage('Build') {
+    agent any
+
+    stages {
+        stage('test') {
             steps {
-              sh "echo ${env.GIT_BRANCH}"
-              script{
-                if(env.GIT_BRANCH=='thirsty'){
-                  echo 'thirsty branch is current'
-                
+                sh 'echo hello'
+            }
+        }
+        stage('test1') {
+            steps {
+                sh 'echo $TEST'
+            }
+        }
+        stage('test3') {
+            steps {
+                script {
+                    if (env.BRANCH_NAME == 'thirsty') {
+                        echo 'I only execute on the thirsty branch'
+                    } else {
+                        echo 'I execute elsewhere'
+                    }
                 }
-                else if(env.GIT_BRANCH=='main'){
-                  echo 'main branch is current'
-                
-                }
-              }
             }
         }
     }
-  
 }
