@@ -4,8 +4,9 @@ pipeline {
         stage("foo") {
             steps {
                 script {
+                    tags = sh(script: "git tag --sort=v:refname | tail -5 ", returnStdout: true).trim()
                     env.tag = input message: 'User input required', ok: 'Release!',
-                            parameters: [choice(name: 'tag', choices: '1.0\n2.0\n3.0', description: 'Select tag?')]
+                            parameters: [choice(name: 'tag', choices: "${tags}", description: 'Select tag?')]
                 }
                 echo "${env.tag}"
             }
