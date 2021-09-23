@@ -1,8 +1,4 @@
 pipeline {
-    environment{
-        RELEASE_SCOPE = ''
-        
-    }
     agent any
     stages {
         stage("foo") {
