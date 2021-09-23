@@ -1,19 +1,18 @@
-    script {
-            // Define Variable
-             def USER_INPUT = input(
-                    message: 'User input required - Some Yes or No question?',
-                    parameters: [
-                            [$class: 'ChoiceParameterDefinition',
-                             choices: ['no','yes'].join('\n'),
-                             name: 'input',
-                             description: 'Menu - select box option']
-                    ])
-
-            echo "The answer is: ${USER_INPUT}"
-
-            if( "${USER_INPUT}" == "yes"){
-                //do something
-            } else {
-                //do something else
+pipeline {
+    environment{
+        RELEASE_SCOPE = ''
+        
+    }
+    agent any
+    stages {
+        stage("foo") {
+            steps {
+                script {
+                    env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
+                            parameters: [choice(name: 'RELEASE_SCOPE', choices: 'patch\nminor\nmajor', description: 'What is the release scope?')]
+                }
+                echo "${env.RELEASE_SCOPE}"
             }
         }
+    }
+}
