@@ -1,17 +1,19 @@
-pipeline {
-    agent any
+    script {
+            // Define Variable
+             def USER_INPUT = input(
+                    message: 'User input required - Some Yes or No question?',
+                    parameters: [
+                            [$class: 'ChoiceParameterDefinition',
+                             choices: ['no','yes'].join('\n'),
+                             name: 'input',
+                             description: 'Menu - select box option']
+                    ])
 
-    stages {
-        stage('Input') {
-            steps {
-                input('Do you want to proceed?')
+            echo "The answer is: ${USER_INPUT}"
+
+            if( "${USER_INPUT}" == "yes"){
+                //do something
+            } else {
+                //do something else
             }
         }
-
-        stage('If Proceed is clicked') {
-            steps {
-                print('hello')
-            }
-        }
-    }
-}
