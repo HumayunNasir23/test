@@ -1,27 +1,15 @@
 pipeline {
-    environment {
-    DRaaS_IP = '163.69.81.96'
-    }
     agent any
     stages {
-        stage ('Deploy backend') {
-            steps{
-                sshagent(credentials : ['jenkins-ssh']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} uptime"
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"kubectl apply -f dep.yaml\""
-
+        stage("foo") {
+            steps {
+                script {
+                    tags = sh(script: "git tag --sort=v:refname | tail -5 ", returnStdout: true).trim()
+                    env.tag = input message: 'User input required', ok: 'Release!',
+                            parameters: [choice(name: 'tag', choices: "${tags}", description: 'Select tag?')]
                 }
+                echo "${env.tag}"
             }
         }
-        stage ('Deploy frontend') {
-            steps{
-                sshagent(credentials : ['jenkins-ssh']) {
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} uptime"
-                    sh "ssh -o StrictHostKeyChecking=no root@${env.DRaaS_IP} \"kubectl apply -f folder/dep.yaml\""
-
-                }
-            }
-        }
-
     }
 }
