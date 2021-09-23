@@ -9,6 +9,7 @@ pipeline {
                 script {
 
 		    echo env.BRANCH_NAME
+		    echo env.deployed
                     if (env.BRANCH_NAME == 'thirsty') {
                         echo 'I only execute on the thirsty branch'
                     } 
