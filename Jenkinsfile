@@ -10,7 +10,7 @@ pipeline {
                     try{
                     timeout(time: 20, unit: 'SECONDS') {
                     env.tag = input message: 'User input required', ok: 'Select!',
-                            parameters: [choice(name: 'tag', choices: "${tags}",defaultValue: "${latest}", description: 'Select tag?')]
+                            parameters: [choice(name: 'tag', choices: "${tags}", description: 'Select tag?')]
                     }
                     }catch(err) { // timeout reached or input false
                      def user = err.getCauses()[0].getUser()
