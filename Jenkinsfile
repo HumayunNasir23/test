@@ -7,8 +7,9 @@ pipeline {
                     tags = sh(script: "git tag --sort=-v:refname", returnStdout: true).trim()
                     latest = sh(returnStdout:  true, script: "git tag --sort=-creatordate | head -n 1").trim()
                     long startTime = System.currentTimeMillis()
+                    timeoutInSeconds =20
                     try{
-                    timeout(time: 20, unit: 'SECONDS') {
+                    timeout(time: timeoutInSeconds, unit: 'SECONDS') {
                     env.tag = input message: 'User input required', ok: 'Select!',
                             parameters: [choice(name: 'tag', choices: "${tags}", description: 'Select tag?')]
                     }
