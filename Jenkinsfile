@@ -1,30 +1,31 @@
 pipeline {
+    environment {
+    Instance_IP = '163.69.81.96'
+    }
     agent any
     stages {
-        stage("foo") {
+        stage("Testing") {
             steps {
                 script {
-                    tags = sh(script: "git tag --sort=-v:refname", returnStdout: true).trim()
-                    latest = sh(returnStdout:  true, script: "git tag --sort=-creatordate | head -n 1").trim()
                     long startTime = System.currentTimeMillis()
                     timeoutInSeconds =20
                     try{
                     timeout(time: timeoutInSeconds, unit: 'SECONDS') {
-                    env.tag = input message: 'User input required', ok: 'Select!',
-                            parameters: [choice(name: 'tag', choices: "${tags}", description: 'Select tag?')]
+                    env.Instance_IP = input message: 'User input required', ok: 'Select!',
+                            parameters: [choice(name: 'instance', choices: ['draas', 'awsmarketplace', 'ibm bleeding edge', 'ibm pre-production','ibm production'], description: 'Select instance?')]
                     }
                     }catch (err) {
                        long timePassed = System.currentTimeMillis() - startTime
                        if (timePassed >= timeoutInSeconds * 1000) {
                            echo 'Timed out'
-                           env.tag = latest
+                           
                        } else {
                        throw err
                     }
                     }
 
                    }
-                      echo "${env.tag}"
+                      echo "env.Instance_IP"
             }
         }
     }
