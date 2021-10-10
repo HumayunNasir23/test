@@ -18,11 +18,19 @@ pipeline {
                            
                        } else {
                        throw err
+                       }
                     }
-                    }
+                       def instance = "${env.Instance_IP}"
+                      if (instance == 'draas'){
+                      env.Instance_IP='DRAAS IP'
+                      }
+                      else if (instance == 'awsmarketplace'){
+                       env.Instance_IP='AWS Market IP'
+                      }
+                      
+                     }
+                     echo "${env.Instance_IP}"
 
-                   }
-                      echo "${env.Instance_IP}"
             }
         }
     }
