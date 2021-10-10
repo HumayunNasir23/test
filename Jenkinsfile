@@ -1,7 +1,4 @@
 pipeline {
-    environment {
-    Instance_IP = '163.69.81.96'
-    }
     agent any
     stages {
         stage("Testing") {
