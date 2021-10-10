@@ -25,7 +25,7 @@ pipeline {
                     }
 
                    }
-                      echo "env.Instance_IP"
+                      echo "${env.Instance_IP}"
             }
         }
     }
