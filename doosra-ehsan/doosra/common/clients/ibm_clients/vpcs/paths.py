@@ -1,0 +1,20 @@
+LIST_VPCS_PATH = "vpcs"
+CREATE_VPC_PATH = "vpcs"
+DELETE_VPC_PATH = "vpcs/{vpc_id}"
+GET_VPC_PATH = "vpcs/{vpc_id}"
+UPDATE_VPC_PATH = "vpcs/{vpc_id}"
+
+GET_VPCS_DEFAULT_NETWORK_ACL_PATH = "vpcs/{vpc_id}/default_network_acl"
+GET_VPCS_DEFAULT_SECURITY_GROUP_PATH = "vpcs/{vpc_id}/default_security_group"
+
+LIST_VPC_ADDRESS_PREFIXES_PATH = "vpcs/{vpc_id}/address_prefixes"
+CREATE_VPC_ADDRESS_PREFIX_PATH = "vpcs/{vpc_id}/address_prefixes"
+DELETE_VPC_ADDRESS_PREFIX_PATH = "vpcs/{vpc_id}/address_prefixes/{address_prefix_id}"
+GET_VPC_ADDRESS_PREFIX_PATH = "vpcs/{vpc_id}/address_prefixes/{address_prefix_id}"
+UPDATE_VPC_ADDRESS_PREFIX_PATH = "vpcs/{vpc_id}/address_prefixes/{address_prefix_id}"
+
+LIST_VPC_ROUTES_PATH = "vpcs/{vpc_id}/routes"
+CREATE_VPC_ROUTE_PATH = "vpcs/{vpc_id}/routes"
+DELETE_VPC_ROUTE_PATH = "vpcs/{vpc_id}/routes/{route_id}"
+GET_VPC_ROUTE_PATH = "vpcs/{vpc_id}/routes/{route_id}"
+UPDATE_VPC_ROUTE_PATH = "vpcs/{vpc_id}/routes/{route_id}"

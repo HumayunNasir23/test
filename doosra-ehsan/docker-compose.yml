@@ -1,0 +1,240 @@
+### To Deploy Gen1 "Change GENERATION: 1 in web, worker and scheduler"
+### For Gen2 no change is required"
+### In "imageworker" change the place holder "SL_USERNAME: & SL_API_KEY:" with IBM Classical Infra "Username" and "API key"
+### In "imageworker" change the place holder "WEBHOOK_BASE_URL:" to Your Instance PUBLIC IP
+# Create docker network before deploying this docker-compose file using following command
+# docker network create --driver bridge vpcplus_network || true
+
+version: "2"
+
+services:
+  webdb:
+    image: mysql:5.7.8
+    container_name: webdb
+    environment:
+      MYSQL_DATABASE: doosradb
+      MYSQL_USER: webuser
+      MYSQL_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: admin123
+    volumes:
+      - ./data/webdb:/var/lib/mysql
+    networks:
+      - default
+
+  rabbitmq:
+    image: rabbitmq:3.8.5
+    environment:
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+    networks:
+      - default
+
+  worker:
+    build: .
+    container_name: worker
+    entrypoint: /doosra-vpc-be/bin/run_worker.sh
+    volumes:
+      - .:/doosra-vpc-be
+    environment:
+      VPCPLUS_LINK: http://128.168.129.142/
+      GOOGLE_OAUTH_LINK: http://128.168.129.142/
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+      FLASK_CONFIG: development
+      GENERATION: 2
+      LOKI_URL: ${LOKI_URL}
+      LOKI_USERNAME: "admin"
+      LOKI_PASSWORD: "admin"
+      TAGS: "worker"
+      LOKI_LOGGING: "disabled"
+      # temp 4 hours DB timeout
+      SQLALCHEMY_POOL_RECYCLE: 14400
+      SQLALCHEMY_POOL_TIMEOUT: 14400
+      # DB Connection pool
+      SQLALCHEMY_POOL_SIZE: 1
+      # Worker concurrency
+      WORKER_CONCURRENCY: 15
+      SLACK_LOGGING: "disabled"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_CHANNEL: "#vpc_bleeding_channel"
+      DEPLOYED_INSTANCE: "None"
+      DB_MIGRATION_CONTROLLER_HOST: "https://db-migration-engg.wanclouds.net"
+      # vpc-engg, draas, draas-engg, vpc-prod [pre-prod], vpc [prod instance]
+      # dbMigrationBinaryFileServerDir should also have the same value for FE too
+      DB_MIGRATION_INSTANCE_TYPE: "vpc-engg"
+    networks:
+      - default
+
+  sync_worker:
+    build: .
+    container_name: sync_worker
+    entrypoint: /doosra-vpc-be/bin/run_sync_worker.sh
+    volumes:
+      - .:/doosra-vpc-be
+    environment:
+      VPCPLUS_LINK: http://128.168.129.142/
+      GOOGLE_OAUTH_LINK: http://128.168.129.142/
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+      FLASK_CONFIG: development
+      GENERATION: 2
+      LOKI_URL: ${LOKI_URL}
+      LOKI_USERNAME: "admin"
+      LOKI_PASSWORD: "admin"
+      TAGS: "syncworker"
+      LOKI_LOGGING: "disabled"
+      SLACK_LOGGING: "disabled"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_CHANNEL: "#vpc_bleeding_channel"
+      DEPLOYED_INSTANCE: "None"
+    networks:
+      - default
+
+  ibmworkflowmanager:
+    build: .
+    container_name: ibm_workflow_manager
+    entrypoint: /doosra-vpc-be/bin/run_ibm_workflow_manager.sh
+    environment:
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+    volumes:
+      - .:/doosra-vpc-be
+    networks:
+      - default
+
+  ibmworkflowinitiator:
+    build: .
+    container_name: ibm_workflow_initiator
+    entrypoint: /doosra-vpc-be/bin/run_ibm_workflow_initiator.sh
+    environment:
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+    volumes:
+      - .:/doosra-vpc-be
+    networks:
+      - default
+
+  imageworker:
+    build: .
+    container_name: image_conversion_worker
+    entrypoint: /doosra-vpc-be/bin/run_image_worker.sh
+    volumes:
+      - .:/doosra-vpc-be
+    environment:
+      SL_USERNAME: danny@wanclouds
+      SL_API_KEY: a65d423fa9ec1dff9bf9806d3c3e5d09e1f1a394d9289db418e7c72633244cb9
+      WEBHOOK_BASE_URL: https://migrate-test.wanclouds.net/v1/ibm/image_conversion/
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+      FLASK_CONFIG: development
+      LOKI_URL: ${LOKI_URL}
+      LOKI_USERNAME: "admin"
+      LOKI_PASSWORD: "admin"
+      TAGS: "imageworker"
+      LOKI_LOGGING: "disabled"
+      SLACK_LOGGING: "disabled"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_CHANNEL: "#vpc_bleeding_channel"
+      DEPLOYED_INSTANCE: "None"
+    networks:
+      - default
+
+  beatworker:
+    build: .
+    depends_on:
+      - beatredis
+    container_name: beat_worker
+    entrypoint: /doosra-vpc-be/bin/run_beat_worker.sh
+    volumes:
+      - .:/doosra-vpc-be
+    environment:
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+      FLASK_CONFIG: development
+      GENERATION: 2
+      REDIS: beatredis
+      LOKI_URL: ${LOKI_URL}
+      LOKI_USERNAME: "admin"
+      LOKI_PASSWORD: "admin"
+      TAGS: "beatworker"
+      LOKI_LOGGING: "disabled"
+      BEAT_WORKER_CONCURRENCY: 100
+      SLACK_LOGGING: "disabled"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_CHANNEL: "#vpc_bleeding_channel"
+      DEPLOYED_INSTANCE: "None"
+    networks:
+      - default
+
+  web:
+    restart: always
+    build: .
+    container_name: web
+    entrypoint: /doosra-vpc-be/bin/run_web.sh
+    ports:
+      - "8081:8081"
+    environment:
+      AUTH_LINK: "http://auth_svc:8081/"
+      ADMIN_APPROVAL_REQUIRED: "False" # True/False
+      VPCPLUS_LINK: http://128.168.129.142/
+      GOOGLE_OAUTH_LINK: http://128.168.129.142/
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+      FLASK_CONFIG: development
+      GENERATION: 2
+      LOKI_USERNAME: "admin"
+      LOKI_PASSWORD: "admin"
+      LOKI_URL: ${LOKI_URL}
+      TAGS: "web"
+      LOKI_LOGGING: "disabled"
+      SLACK_LOGGING: "disabled"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_CHANNEL: "#vpc_bleeding_channel"
+      DEPLOYED_INSTANCE: "None"
+      DB_MIGRATION_API_KEY: "abc123!"
+      DB_MIGRATION_CONTROLLER_HOST: "https://db-migration-engg.wanclouds.net"
+    volumes:
+      - .:/doosra-vpc-be
+    networks:
+      - vpcplus_network
+      - default
+
+  redis:
+    image: redis
+    command: redis-server --requirepass admin123
+    container_name: redis
+    networks:
+      - default
+
+  beatredis:
+    image: redis
+    command: redis-server --requirepass admin123
+    container_name: beatredis
+    networks:
+      - default
+
+  scheduler:
+    build: .
+    container_name: scheduler
+    entrypoint: /doosra-vpc-be/bin/run_scheduler.sh
+    volumes:
+      - .:/doosra-vpc-be
+    environment:
+      RABBIT_ENV_RABBITMQ_USER: guest
+      RABBIT_ENV_RABBITMQ_PASSWORD: guest
+      GENERATION: 2
+      LOKI_URL: ${LOKI_URL}
+      LOKI_USERNAME: "admin"
+      LOKI_PASSWORD: "admin"
+      TAGS: "scheduler"
+      LOKI_LOGGING: "disabled"
+      SLACK_LOGGING: "disabled"
+      SLACK_WEBHOOK_URL: "https://hooks.slack.com/services/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"
+      SLACK_CHANNEL: "#vpc_bleeding_channel"
+      DEPLOYED_INSTANCE: "None"
+    networks:
+      - default
+
+networks:
+  vpcplus_network:
+    external: true

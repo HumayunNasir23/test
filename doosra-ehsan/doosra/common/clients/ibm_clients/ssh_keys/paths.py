@@ -1,0 +1,5 @@
+LIST_SSH_KEYS_PATH = "keys"
+CREATE_SSH_KEY_PATH = "keys"
+DELETE_SSH_KEY_PATH = "keys/{key_id}"
+GET_SSH_KEY_PATH = "keys/{key_id}"
+UPDATE_SSH_KEY_PATH = "keys/{key_id}"
