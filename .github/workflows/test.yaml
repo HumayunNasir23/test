@@ -2,7 +2,7 @@
 name: GitHub Actions Demo
 on: [push]
 env:
-  COMMIT_ID: ${GITHUB_SHA::7}
+  COMMIT_ID: "${GITHUB_SHA::7}"
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
