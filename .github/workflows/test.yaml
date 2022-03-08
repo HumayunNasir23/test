@@ -19,14 +19,9 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
-      - uses: actions/checkout@v2
-      - uses: benjlevesque/short-sha@v1.2
-        id: short-sha
-        with:
-          length: 6
-      - run: echo $SHA
-        env: 
-          SHA: ${{ steps.short-sha.outputs.sha }}
-      - run: echo $SHA
-        env: 
-          SHA: ${{ env.SHA }}
+      - name: Set outputs
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Check outputs
+        run: echo ${{ steps.vars.outputs.sha_short }}
+
