@@ -1,15 +1,37 @@
+name: Conditional job Selection based on input
 
-name: GitHub Actions Demo
-on: 
-  push:
-    branches: [ main ]
+on:      
+  workflow_dispatch:
+    inputs:
+      job-name:
+        description: 'Job id'
+        required: true
+
 jobs:
-  deploy_to_dev:
+  build:
+    name: build
+    if: ${{ github.event.inputs.job-name == 'build' }}
     runs-on: ubuntu-latest
-    environment: dev
+    
     steps:
-    - name: Deploy to Dev
-      run: echo "Dev deployment"
+
+    - uses: actions/checkout@v2
+    
+    - name: echo
+      run: |
+       echo "this is build job" 
+  release:
+    name: release
+    if: ${{ github.event.inputs.job-name == 'release' }}
+    runs-on: ubuntu-latest
+    
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: echo
+      run: |
+       echo "this is release job" 
 
  
 
