@@ -10,11 +10,6 @@ jobs:
     steps:
     - name: Deploy to Dev
       run: echo "Dev deployment"
-  deploy_to_stage:
-    runs-on: ubuntu-latest
-    environment: stage
-    steps:
-    - name: Deploy to stage
-      run: echo "Stage Deployment"
+
  
 
