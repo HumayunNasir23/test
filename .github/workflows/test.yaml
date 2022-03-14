@@ -5,4 +5,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploy on production"      
+      - run: echo "github.ref"  
+      - run: echo "Deploy on production" 
+  develop-deploy:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "github.ref"  
+      - run: echo "Deploy on develop"    
