@@ -3,20 +3,22 @@ name: GitHub Actions Demo
 on: 
   push:
     branches: [ main ]
+env:
+  active: ${{ secrets.ACTIVE }}
 jobs:
   deploy_to_dev:
     runs-on: ubuntu-latest
     environment: dev
     steps:
-    - run: echo "${{ secrets.ACTIVE }}"
     - name: Deploy to Dev
+      if: "${{ env.active == 'active' }}"
       run: echo "Dev deployment"
   deploy_to_stage:
     runs-on: ubuntu-latest
     environment: stage
     steps:
-    - run: echo "${{ secrets.ACTIVE }}"
     - name: Deploy to stage
+      if: "${{ env.active == 'active' }}"
       run: echo "Stage Deployment"
  
 
