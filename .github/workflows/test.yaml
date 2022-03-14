@@ -1,6 +1,8 @@
 name: Conditional job Selection based on input
 
-on:      
+on: 
+  push:
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       job-name:
