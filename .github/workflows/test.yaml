@@ -8,12 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: dev
     steps:
+    - run: echo "${{ secrets.ACTIVE }}"
     - name: Deploy to Dev
       run: echo "Dev deployment"
   deploy_to_stage:
     runs-on: ubuntu-latest
     environment: stage
     steps:
+    - run: echo "${{ secrets.ACTIVE }}"
     - name: Deploy to stage
       run: echo "Stage Deployment"
  
