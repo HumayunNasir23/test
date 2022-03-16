@@ -10,7 +10,7 @@ jobs:
         if: github.ref == 'refs/heads/develop'
       - run: echo "Hey There if is not working"
       - run: echo "Oh NO!!!!!"
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/main'
       - run: echo "Hey There if is working successfully!!!"
       - run: echo "YESSSSSSSS !!!!!"
       
