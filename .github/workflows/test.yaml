@@ -6,7 +6,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "github.ref"  
-      - run: echo "Deploy on production" 
+      - run: echo "Deploy on production"
+        if: github.ref == 'refs/heads/develop'
+      - run: echo "Hey There if is not working"
+      - run: echo "Oh NO!!!!!"
+        if: github.ref == 'refs/heads/develop'
+      - run: echo "Hey There if is working successfully!!!"
+      - run: echo "YESSSSSSSS !!!!!"
+      
   develop-deploy:
     if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
