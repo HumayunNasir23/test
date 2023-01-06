@@ -5,7 +5,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - run: echo "github.ref"  
+      - uses: actions/checkout@v2
+        name: Check out code
+      - name: Get short commit_id
+        id: image-tag
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - run: echo "Deploy on production"
         if: github.ref == 'refs/heads/develop'
       - run: echo "Hey There if is not working"
