@@ -7,12 +7,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         name: Check out code
-
       - name: Get short commit_id
         id: image-tag
         run: echo "sha_short=$(git rev-parse --short HEAD)">>$GITHUB_OUTPUT
       - name: Print short commit_id
         run: echo "Short commit_id is ${{ GITHUB_OUTPUT }}"
+        
       - run: echo "Deploy on production"
         if: github.ref == 'refs/heads/develop'
       - run: echo "Hey There if is not working"
