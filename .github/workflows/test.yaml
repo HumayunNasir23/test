@@ -4,6 +4,8 @@ jobs:
   production-deploy:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: "true"
     steps:
       - uses: actions/checkout@v2
         name: Check out code
