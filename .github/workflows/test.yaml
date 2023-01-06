@@ -9,7 +9,9 @@ jobs:
         name: Check out code
       - name: Get short commit_id
         id: image-tag
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+        run: echo "::set-env name=SHA_SHORT::$(git rev-parse --short HEAD)"
+      - name: Print short commit_id
+        run: echo "Short commit_id is ${{ env.SHA_SHORT }}"
       - run: echo "Deploy on production"
         if: github.ref == 'refs/heads/develop'
       - run: echo "Hey There if is not working"
