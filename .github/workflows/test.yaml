@@ -1,4 +1,3 @@
-
 name: Temporary Comment
 
 on: [push]
@@ -13,6 +12,8 @@ jobs:
         echo "This is a temporary comment" >> file.txt
     - name: Commit and push change
       run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
         git add file.txt
         git commit -m "Add temporary comment"
         git push origin main
