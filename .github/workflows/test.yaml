@@ -11,6 +11,8 @@ jobs:
       run: |
         sed -i "${1}s/^/# /" file.txt
         sed -i "${2}s/^/# /" file.txt
+    - name: Read Makefile
+      run: cat Makefile
  
 
 
