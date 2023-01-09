@@ -9,6 +9,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Comment Makefile
       run: |
+        git config --global user.email "humayun@wanclouds.net"
+        git config --global user.name "HumayunNasir23"
         sed -i "${1}s/^/# /" file.txt
         sed -i "${2}s/^/# /" file.txt
         git add file.txt
