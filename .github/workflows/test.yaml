@@ -15,11 +15,5 @@ jobs:
         git config --global user.email "humayun@wanclouds.net"
         git config --global user.name "HumayunNasir23"
         git add file.txt
-        git push origin main
-    - name: Commit changes
-      run: git commit -m "Temporary comment added"
-    - name: Revert change
-      run: |
-        git checkout HEAD -- file.txt
-        git commit -m "Revert temporary comment"
-        git push origin main
+    - name: Reset change
+    - run: git reset file.txt
