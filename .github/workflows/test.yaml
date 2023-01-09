@@ -21,4 +21,3 @@ jobs:
       run: |
         git checkout HEAD -- file.txt
         git commit -m "Revert temporary comment"
-        git push origin main
