@@ -12,5 +12,7 @@ jobs:
         sed -i "${1}s/^/# /" file.txt
         sed -i "${2}s/^/# /" file.txt
         git add file.txt
+        git commit -m "Added comment to line"
+        git push origin main
 
 
