@@ -11,8 +11,6 @@ jobs:
       run: |
         sed -i "${1}s/^/# /" file.txt
         sed -i "${2}s/^/# /" file.txt
-        git add file.txt
-    - name: Reset change
-      run: git reset file.txt
+ 
 
 
