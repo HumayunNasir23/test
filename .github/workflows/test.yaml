@@ -1,38 +1,25 @@
-name: example-workflow
+
+name: Temporary Comment
+
 on: [push]
+
 jobs:
-  production-deploy:
-    if: github.ref == 'refs/heads/main'
+  temporary-comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        name: Check out code
-      - name: Get short commit_id
-        id: image-tag
-        run: echo "sha_short=$(git rev-parse --short HEAD)">>$GITHUB_OUTPUT
-      - name: Print short commit_id
-        run: echo "Short commit_id is ${{ steps.image-tag.outputs.sha_short }}"
-        
-      - run: echo "Deploy on production"
-        if: github.ref == 'refs/heads/develop'
-      - run: echo "Hey There if is not working"
-      - run: echo "Oh NO!!!!!"
-        if: github.ref == 'refs/heads/main'
-      - run: echo "Hey There if is working successfully!!!"
-      - run: echo "YESSSSSSSS !!!!!"
-      - name: Set short git commit SHA
-        id: vars
-        run: |
-          calculatedSha=$(git rev-parse --short ${{ github.sha }})
-          echo "::set-output name=short_sha::$calculatedSha"
-
-      - name: Confirm git commit SHA output
-        run: echo ${{ steps.vars.outputs.short_sha }}
-      
-  develop-deploy:
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "github.ref"  
-      - run: echo "Deploy on develop"    
-
+    - uses: actions/checkout@v2
+    - name: Add temporary comment
+      run: |
+        echo "This is a temporary comment" >> file.txt
+    - name: Commit and push change
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git add file.txt
+        git commit -m "Add temporary comment"
+        git push origin main
+    - name: Revert change
+      run: |
+        git checkout HEAD -- file.txt
+        git commit -m "Revert temporary comment"
+        git push origin main
