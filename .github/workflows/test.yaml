@@ -17,6 +17,8 @@ jobs:
         git add file.txt
         git commit -m "Add temporary comment"
         git push origin main
+    - name: Commit changes
+      run: git commit -a -m "Temporary comment added"
     - name: Revert change
       run: |
         git checkout HEAD -- file.txt
