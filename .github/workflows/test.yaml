@@ -10,15 +10,10 @@ jobs:
     - name: Add temporary comment
       run: |
         echo "This is a temporary comment" >> file.txt
-    - name: Commit and push change
-      run: |
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
-        git add file.txt
-        git commit -m "Add temporary comment"
-        git push origin main
+    - name: Stage changes
+      run: git add file.txt
     - name: Commit changes
-      run: git commit -a -m "Temporary comment added"
+      run: git commit -m "Temporary comment added"
     - name: Revert change
       run: |
         git checkout HEAD -- file.txt
