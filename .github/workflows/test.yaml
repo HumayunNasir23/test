@@ -1,31 +1,24 @@
-name: Testing git-actions
+name: Workflow Dispatch for Main and Develop Branches
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
-  
+
 jobs:
-  build-push:
+  deploy:
     runs-on: ubuntu-latest
-    env:
-      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      
+
     steps:
-    - uses: actions/checkout@v2
-      name: Check out code
-      
-    - name: Get short commit_id
-      id: image-tag
-      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-    
-    - name: Print short commit_id
-      run: echo "Short commit_id is ${{ steps.image-tag.outputs.sha_short }}"
+    - name: Checkout Repository
+      uses: actions/checkout@v2
 
-    - name: Confirm git commit SHA output
-      run: echo ${{ steps.vars.outputs.short_sha }}
+    - name: Run Job on Main Branch
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Running on Main Branch"
+        # Add your actions here
 
-    - name: Get the branch name
-      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
-      
+    - name: Run Job on Develop Branch
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        echo "Running on Develop Branch"
+        # Add your actions here
