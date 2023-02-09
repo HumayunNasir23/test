@@ -1,18 +1,31 @@
-name: Temporary Comment
+name: Testing git-actions
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  
 jobs:
-  temporary-comment:
+  build-push:
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      
     steps:
     - uses: actions/checkout@v2
-    - name: Comment Makefile
-      run: |
-        sed -i "${1}s/^/# /" file.txt
-        sed -i "${2}s/^/# /" file.txt
-    - name: Read Makefile
-      run: cat file.txt
- 
+      name: Check out code
+      
+    - name: Get short commit_id
+      id: image-tag
+      run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+    
+    - name: Print short commit_id
+      run: echo "Short commit_id is ${{ steps.image-tag.outputs.sha_short }}"
 
+    - name: Confirm git commit SHA output
+      run: echo ${{ steps.vars.outputs.short_sha }}
 
+    - name: Get the branch name
+      run: echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+      
