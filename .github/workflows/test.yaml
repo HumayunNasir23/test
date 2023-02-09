@@ -1,16 +1,24 @@
-name: example-workflow
-on: [push]
+name: Workflow Dispatch for Main and Develop Branches
+
+on:
+  workflow_dispatch:
+
 jobs:
-  production-deploy:
-    if: github.ref == 'refs/heads/main'
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "github.ref"  
-      - run: echo "Deploy on production" 
-  develop-deploy:
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "github.ref"  
-      - run: echo "Deploy on develop"    
-      
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Run Job on Main Branch
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo "Running on Main Branch"
+        # Add your actions here
+
+    - name: Run Job on Develop Branch
+      if: github.ref == 'refs/heads/develop'
+      run: |
+        echo "Running on Develop Branch"
+        # Add your actions here
