@@ -1,2 +1,0 @@
-class BaseOS(object):
-    pass

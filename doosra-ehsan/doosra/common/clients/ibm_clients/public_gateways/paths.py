@@ -1,5 +1,0 @@
-LIST_PUBLIC_GATEWAYS_PATH = "public_gateways"
-CREATE_PUBLIC_GATEWAY_PATH = "public_gateways"
-DELETE_PUBLIC_GATEWAY_PATH = "public_gateways/{public_gateway_id}"
-GET_PUBLIC_GATEWAY_PATH = "public_gateways/{public_gateway_id}"
-UPDATE_PUBLIC_GATEWAY_PATH = "public_gateways/{public_gateway_id}"

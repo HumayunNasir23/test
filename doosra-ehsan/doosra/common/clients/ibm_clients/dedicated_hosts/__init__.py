@@ -1,1 +1,0 @@
-from .dedicated_hosts import DedicatedHostsClient

@@ -1,8 +1,0 @@
-IKE_POLICY_CREATE = "Task for IKE POLICY creation initiated by user: email '{}'"
-IKE_POLICY_DELETE = "Task for IKE POLICY deletion initiated by user: email '{}'"
-IPSEC_POLICY_CREATE = "Task for IPSEC POLICY creation initiated by user: email '{}'"
-IPSEC_POLICY_DELETE = "Task for IPSEC POLICY deletion initiated by user: email '{}'"
-VPN_GATEWAY_CREATE = "Task for VPN_GATEWAY creation initiated by user: email '{}'"
-VPN_GATEWAY_DELETE = "Task for VPN_GATEWAY deletion initiated by user: email '{}'"
-VPN_CONNECTION_CREATE = "Task for VPN_GATEWAY_CONNECTION creation initiated by user: email '{}'"
-VPN_CONNECTION_DELETE = "Task for VPN_GATEWAY_CONNECTION deletion initiated by user: email '{}'"
