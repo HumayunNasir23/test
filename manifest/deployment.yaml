@@ -15,14 +15,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: hna:latest
+        image: nginx:latest
         ports:
         - containerPort: 80
-      livenessProbe:
-      exec:
-        command:
-        - cat
-        - /healthcheck
-      initialDelaySeconds: 5
-      periodSeconds: 15
-      failureThreshold: 1
