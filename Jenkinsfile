@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Test') {
             when {
-                expression { BRANCH_NAME == 'develop'}
+                expression { env.BRANCH_NAME == 'develop'}
             }
             steps {
                 sh 'echo Test'
