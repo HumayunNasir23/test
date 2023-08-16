@@ -10,11 +10,13 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'echo Test'
+                sh 'pwd'
             }
         }
         stage('Deploy') {
             steps {
                 sh 'echo Deploy'
+                sh 'touch newfile'
             }
         }
         stage('Deploy New') {
