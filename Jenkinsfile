@@ -24,6 +24,24 @@ pipeline {
             steps {
                 sh 'echo Deploy'
                 sh 'touch newfile'
+                script{
+                   def environment = "staging"
+                   if (environment == 'draas'){
+                      echo "Deploying on ${environment} instance"
+                   }
+                   else if (environment == 'aws-marketplace'){
+                       echo "Deploying on ${environment} instance"
+                   }
+                   else if (environment == 'staging'){
+                      echo "Deploying on ${environment} instance"
+                   }
+                   else if (environment == 'ibm-pre-production'){
+                      echo "Deploying on ${environment} instance"
+                   }
+                   else if (environment == 'ibm-production'){
+                       echo "Deploying on ${environment} instance"
+                   }
+                }
             }
         }
         stage('Deploy New') {
