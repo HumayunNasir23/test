@@ -25,5 +25,10 @@ pipeline {
             }
         }
     }
+    post{
+        always{
+         sh 'echo Always EXECUTION!!!'
+        }
+    }
 }
 
