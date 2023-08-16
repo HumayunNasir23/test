@@ -8,6 +8,9 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+                expression { BRANCH_NAME == 'develop'}
+            }
             steps {
                 sh 'echo Test'
                 sh 'pwd'
