@@ -11,15 +11,6 @@ pipeline {
                 echo "Building version ${VERSION}"
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    def imageName = "python-program:${env.BUILD_NUMBER}"
-                    
-                    docker.build(imageName, '.')
-                }
-            }
-        }
         stage('Test') {
             when {
                 expression { env.BRANCH_NAME == 'develop'}
