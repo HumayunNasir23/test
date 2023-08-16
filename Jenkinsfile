@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    environment{
+       VERSION = '1.1.0'
+    } 
     stages {
         stage('Build') {
             steps {
                 sh 'echo Build'
                 sh 'ls'
+                echo "Building version ${VERSION}"
             }
         }
         stage('Test') {
